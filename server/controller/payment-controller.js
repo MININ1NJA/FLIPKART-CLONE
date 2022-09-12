@@ -66,5 +66,5 @@ export const paymentResponse = (request, response) => {
         } else {
             console.log("Checksum Mismatched");
         }
-    console.log('//////////////end')
+    console.log('Payment Response')
 }
