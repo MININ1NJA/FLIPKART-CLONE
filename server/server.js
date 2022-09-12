@@ -12,12 +12,19 @@ import Routes from './routes/route.js';
 dotenv.config();
 const app = express();
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 
-Connection(username, password);
+const URL = process.env.MONGODB_URI || `mongodb://${USERNAME}:${PASSWORD}@ac-ise9br0-shard-00-00.d1ldgda.mongodb.net:27017,ac-ise9br0-shard-00-01.d1ldgda.mongodb.net:27017,ac-ise9br0-shard-00-02.d1ldgda.mongodb.net:27017/ECOMMERCE?ssl=true&replicaSet=atlas-98hgw4-shard-0&authSource=admin&retryWrites=true&w=majority`;
+ 
+
+Connection(URL);
+
+if (process.env.NODE_ENV == 'production') {
+    app.use(express.static('client/build'))
+}
 
 app.listen(PORT, () => console.log(`Server is running successfully on PORT ${PORT}`));
 DefaultData();
@@ -36,6 +43,6 @@ paytmParams['INDUSTRY_TYPE_ID'] = process.env.PAYTM_INDUSTRY_TYPE_ID,
 paytmParams['ORDER_ID'] = uuid(),
 paytmParams['CUST_ID'] = process.env.PAYTM_CUST_ID,
 paytmParams['TXN_AMOUNT'] = '100',
-paytmParams['CALLBACK_URL'] = 'http://localhost:8000/callback'
+paytmParams['CALLBACK_URL'] = 'callback'
 paytmParams['EMAIL'] = 'mohitesiddhant16@gmail.com'
 paytmParams['MOBILE_NO'] = '8291236282'
